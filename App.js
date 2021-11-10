@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { View, StyleSheet, Text, ScrollView, Dimensions} from 'react-native';
-
+import * as Location from "expo-location";
+import React, { useEffect, useState } from "react";
+import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
+  const [city, setCity] = useState("Loading...");
+  const [location, setLocation] = useState();
+  const [ok, setOk] = useState(true);
+  const ask = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
+    }
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
+    setCity(location[0].city);
+  };
+  useEffect(() => {
+    ask();
+  }, []);
   return (
     <View style={styles.container}>
-      <StatusBar style="black" />
-      <View style={styles.city}> 
-        <Text style={styles.cityName}>Busan</Text>
+      <View style={styles.city}>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
-      <ScrollView 
-      pagingEnabled   //페이지로 제작
-      horizontal  //옆으로 스크롤
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.weather}
+      <ScrollView
+        pagingEnabled
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.weather}
       >
         <View style={styles.day}>
           <Text style={styles.temp}>27</Text>
@@ -38,33 +56,32 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({  //css라고 생각!
+const styles = StyleSheet.create({
   container: {
-    flex: 1,  //flex
+    flex: 1,
     backgroundColor: "#58CCFF",
   },
   city: {
-    flex: 1,
-    backgroundColor: "#58CCFF",
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  weather: { 
+    flex: 1.2,
+    justifyContent: "center",
+    alignItems: "center",
   },
   cityName: {
-    fontSize: 45,
+    fontSize: 58,
     fontWeight: "500",
   },
+  weather: {},
   day: {
     width: SCREEN_WIDTH,
-    alignItems: 'center',
+    alignItems: "center",
   },
   temp: {
-    marginTop: 30,
-    fontSize: 150,
+    marginTop: 50,
+    fontWeight: "600",
+    fontSize: 178,
   },
   description: {
-    fontSize: 60,
     marginTop: -30,
-  }
-})
+    fontSize: 60,
+  },
+});
