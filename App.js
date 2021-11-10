@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Dimensions} from 'react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
   return (
@@ -9,12 +11,29 @@ export default function App() {
       <View style={styles.city}> 
         <Text style={styles.cityName}>Busan</Text>
       </View>
-      <View style={styles.weather}>
+      <ScrollView 
+      pagingEnabled   //페이지로 제작
+      horizontal  //옆으로 스크롤
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.weather}
+      >
         <View style={styles.day}>
           <Text style={styles.temp}>27</Text>
           <Text style={styles.description}>Sunny</Text>
         </View>
-      </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -30,15 +49,14 @@ const styles = StyleSheet.create({  //css라고 생각!
     alignItems: 'center',
     justifyContent: 'center',
   },
-  weather: {
-    flex: 3,
+  weather: { 
   },
   cityName: {
     fontSize: 45,
     fontWeight: "500",
   },
   day: {
-    flex: 1,
+    width: SCREEN_WIDTH,
     alignItems: 'center',
   },
   temp: {
