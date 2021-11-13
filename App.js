@@ -8,9 +8,15 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";  //icon import
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const API_KEY = "b99ddc3d51afcea3742755b831ee1ff7";
+
+const icons = {
+  "Clouds" : "cloudy"
+}
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -60,6 +66,9 @@ export default function App() {
         ) : ( //정보가 있다면
           days.map((day, index) => (  //days안의 각 day를 컴포넌트로 바꾸고 return
             <View key={index} style={styles.day}>
+              <View style={styles.icon}>
+                <Fontisto name = "cloudy" size={24} color="white" />  
+              </View>
               <Text style={styles.temp}>
                 {parseFloat(day.temp.day).toFixed(1)}
               </Text>
@@ -79,29 +88,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#58CCFF",
   },
   city: {
-    flex: 1.2,
+    marginTop: 10,
+    flex: 0.8,
     justifyContent: "center",
     alignItems: "center",
   },
   cityName: {
-    fontSize: 58,
+    color: "white",
+    fontSize: 60,
     fontWeight: "500",
   },
-  weather: {},
+  weather: {
+  },
   day: {
     width: SCREEN_WIDTH,
-    alignItems: "center",
   },
   temp: {
+    color: "white",
     marginTop: 50,
     fontWeight: "600",
-    fontSize: 178,
+    fontSize: 100,
   },
   description: {
-    marginTop: -30,
+    color: "white",
+    marginTop: -15,
+    marginLeft: 10,
     fontSize: 60,
   },
   tinyText: {
+    color: "white",
     fontSize: 20,
+    marginLeft: 15,
   },
+  icon: {flexDirection: "row",
+  alignItems: "center",
+  }
 });
