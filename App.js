@@ -15,8 +15,13 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const API_KEY = "b99ddc3d51afcea3742755b831ee1ff7";
 
 const icons = {
-  "Clouds" : "cloudy"
-}
+  Clouds : "cloudy",
+  Clear : "day-sunny",
+  Snow : "snow",
+  Rain : "rains",
+  Drizzle : "rain",
+  Thunderstorm : "lightning",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -56,7 +61,7 @@ export default function App() {
         contentContainerStyle={styles.weather}
       >
         {days.length === 0 ? (  //정보의 길이가 0일 때
-          <View style={styles.day}>
+          <View style={{...styles.day, alignItems: "center"}}>
             <ActivityIndicator  //수신 전 로딩으로
               color="white"
               style={{ marginTop: 10 }}
@@ -66,12 +71,24 @@ export default function App() {
         ) : ( //정보가 있다면
           days.map((day, index) => (  //days안의 각 day를 컴포넌트로 바꾸고 return
             <View key={index} style={styles.day}>
-              <View style={styles.icon}>
-                <Fontisto name = "cloudy" size={24} color="white" />  
-              </View>
-              <Text style={styles.temp}>
+              <View
+                style={{
+                  flexDirection: "row",  //옆으로 배치
+                  alignItems: "center",
+                  justifyContent: "space-between", //요소들 사이에 동일한 간격
+                  width: "100%",
+                  }}
+                  >
+                <Text style={styles.temp}>
                 {parseFloat(day.temp.day).toFixed(1)}
-              </Text>
+                </Text>
+               
+                <Fontisto 
+                name = {icons[day.weather[0].main]} 
+                size={70} 
+                color="white" />  
+                
+                </View>
               <Text style={styles.description}>{day.weather[0].main}</Text>
               <Text style={styles.tinyText}>{day.weather[0].description}</Text>
             </View>
@@ -91,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 0.8,
     justifyContent: "center",
-    alignItems: "center",
+    paddingHorizontal: 20,
   },
   cityName: {
     color: "white",
@@ -106,21 +123,19 @@ const styles = StyleSheet.create({
   temp: {
     color: "white",
     marginTop: 50,
-    fontWeight: "600",
+    fontWeight: "400",
     fontSize: 100,
+    marginLeft: 20,
   },
   description: {
     color: "white",
     marginTop: -15,
-    marginLeft: 10,
+    marginLeft: 30,
     fontSize: 60,
   },
   tinyText: {
     color: "white",
     fontSize: 20,
-    marginLeft: 15,
+    marginLeft: 40,
   },
-  icon: {flexDirection: "row",
-  alignItems: "center",
-  }
 });
