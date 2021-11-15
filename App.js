@@ -66,6 +66,7 @@ export default function App() {
               color="white"
               style={{ marginTop: 10 }}
               size="large"
+              alignItems="center"
             />
           </View>
         ) : ( //정보가 있다면
@@ -75,7 +76,7 @@ export default function App() {
                 style={{
                   flexDirection: "row",  //옆으로 배치
                   alignItems: "center",
-                  justifyContent: "space-between", //요소들 사이에 동일한 간격
+                  justifyContent: "flex-start", //요소들 사이에 동일한 간격
                   width: "100%",
                   }}
                   >
@@ -85,7 +86,7 @@ export default function App() {
                
                 <Fontisto 
                 name = {icons[day.weather[0].main]} 
-                size={70} 
+                size={40} 
                 color="white" />  
                 
                 </View>
